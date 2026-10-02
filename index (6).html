@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>เป็นแฟนกันไหมครับ ❤️</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;overflow-x:hidden;font-family:Arial,"Noto Sans Thai",Tahoma,sans-serif;color:#6b3048;background:linear-gradient(135deg,#ffd6e7,#fff0f6,#ffc1da)}
+.page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:25px 16px;position:relative}
+.card{width:min(720px,100%);padding:42px 25px;text-align:center;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);border-radius:32px;box-shadow:0 18px 55px rgba(130,50,85,.18);position:relative;z-index:2;animation:appear .8s ease}
+.face{font-size:clamp(80px,20vw,130px);animation:bounce 2s ease-in-out infinite}
+h1{margin:12px 0;color:#e75480;font-size:clamp(34px,8vw,58px);line-height:1.3;text-shadow:0 0 18px #fff}
+.message{font-size:clamp(21px,5vw,32px);line-height:1.7;margin:12px 0 28px}.heart{font-size:clamp(65px,15vw,100px);animation:heartbeat 1.25s ease-in-out infinite;margin:12px 0 25px}
+.buttons{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}button{border:0;border-radius:999px;padding:15px 28px;font-size:18px;font-family:inherit;cursor:pointer;transition:.25s;box-shadow:0 8px 20px rgba(120,40,75,.15)}
+.yes{background:#e75480;color:white}.no{background:#ffe0eb;color:#b83d69}button:hover{transform:translateY(-3px) scale(1.03)}
+.answer{display:none;margin-top:28px;padding:24px 18px;border-radius:24px;background:#fff0f6;color:#b83d69;font-size:21px;line-height:1.7;animation:answerIn .6s ease}.answer.show{display:block}.big-heart{font-size:65px}
+.music-box{margin:24px auto 0}.music-btn{background:#fff;color:#d94f7c;border:2px solid #f4a6c0;padding:12px 22px;font-size:16px;box-shadow:0 6px 16px rgba(120,40,75,.10)}.music-btn.playing{background:#ffe0eb}
+.floating{position:fixed;bottom:-60px;pointer-events:none;z-index:1;animation:floatUp linear forwards}.sparkle{position:fixed;pointer-events:none;z-index:10;font-size:24px;animation:spark .9s forwards}
+@keyframes appear{from{opacity:0;transform:translateY(25px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes answerIn{from{opacity:0;transform:translateY(18px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.16)}30%{transform:scale(1)}45%{transform:scale(1.1)}60%{transform:scale(1)}}
+@keyframes floatUp{0%{transform:translateY(0) scale(.7) rotate(0);opacity:0}10%{opacity:.8}90%{opacity:.65}100%{transform:translateY(-115vh) scale(1.25) rotate(20deg);opacity:0}}
+@keyframes spark{to{transform:translateY(-90px) scale(1.8);opacity:0}}
+@media(max-width:600px){.card{padding:32px 18px}.message{font-size:21px}button{width:100%;max-width:300px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="card">
+    <div class="face">🥰</div>
+    <h1>เป็นแฟนกันไหมครับ</h1>
+    <div class="heart">❤️</div>
+    <div class="message">พวกเรามาคบเป็นแฟนกันไหมครับ</div>
+
+    <audio id="bgMusic" loop preload="auto" autoplay>
+      <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="buttons">
+      <button class="yes" onclick="answerYes()">เป็นแฟนกัน ❤️</button>
+      <button class="no" onclick="answerNo()">ยังไม่พร้อมเป็นแฟน 🥺</button>
+    </div>
+
+    <div id="yesAnswer" class="answer">
+      <div class="big-heart">❤️</div>
+      ขอบคุณนะที่เลือกเรา 🥰<br>
+    </div>
+
+    <div id="noAnswer" class="answer">
+      <div class="big-heart">🥺❤️</div>
+      ไม่เป็นไรเราก็ยังจะจีบต่อไป ❤️
+    </div>
+  </div>
+</div>
+<script>
+// เพลงจะพยายามเล่นอัตโนมัติเมื่อเปิดเว็บ
+const bgMusic=document.getElementById("bgMusic");
+function startMusic(){
+  if(!bgMusic || !bgMusic.paused) return;
+  bgMusic.play().catch(()=>{});
+}
+bgMusic.play().catch(()=>{});
+// หากเบราว์เซอร์บล็อก autoplay ให้เริ่มทันทีเมื่อผู้ชมแตะ/คลิกหน้าเว็บครั้งแรก
+["pointerdown","touchstart","keydown"].forEach(evt=>{
+  document.addEventListener(evt,startMusic,{once:true,passive:true});
+});
+function answerYes(){document.getElementById("noAnswer").classList.remove("show");document.getElementById("yesAnswer").classList.add("show");burst()}
+function answerNo(){document.getElementById("yesAnswer").classList.remove("show");document.getElementById("noAnswer").classList.add("show");burst()}
+function burst(){for(let i=0;i<35;i++){const s=document.createElement("div");s.className="sparkle";s.textContent=["❤️","💗","💕","💖","✨"][Math.floor(Math.random()*5)];s.style.left=(40+Math.random()*20)+"vw";s.style.top=(42+Math.random()*16)+"vh";document.body.appendChild(s);setTimeout(()=>s.remove(),900)}}
+function heart(){const h=document.createElement("div");h.className="floating";h.textContent=Math.random()>.5?"❤️":"💕";h.style.left=Math.random()*100+"vw";h.style.fontSize=(15+Math.random()*25)+"px";h.style.animationDuration=(4+Math.random()*4)+"s";document.body.appendChild(h);setTimeout(()=>h.remove(),8500)}
+setInterval(heart,650);
+</script>
+</body>
+</html>
